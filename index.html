@@ -3,53 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Live Static Site</title>
+    <title>Announcements</title>
     <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; }
-        #announcement-banner {
-            background: #ff4757;
-            color: white;
-            text-align: center;
-            padding: 12px;
-            font-weight: bold;
-            display: none; /* Hidden by default until checked */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .container { padding: 40px; text-align: center; }
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
     </style>
 </head>
 <body>
-
-    <!-- The Announcement Banner Component -->
-    <div id="announcement-banner"></div>
-
-    <div class="container">
-        <h1>Welcome to My Static Website</h1>
-        <p>This page never changes its URL, but the top banner can be updated remotely!</p>
-    </div>
-
-    <script>
-        // PASTE YOUR RAW GIST URL HERE
-        const GIST_URL = "https://gist.githubusercontent.com/twalley-sudo/af45aa3ebc0a7b369ab03f30fdcfa721/raw/c16a482cf046d817575e557b90bc5cf7d545a638/announcement.json";
-
-        async function loadAnnouncement() {
-            try {
-                // Fetch the remote JSON data
-                const response = await fetch(GIST_URL);
-                const data = await response.json();
-
-                // If active, display the banner and inject the text
-                if (data.active && data.text) {
-                    const banner = document.getElementById('announcement-banner');
-                    banner.innerText = data.text;
-                    banner.style.display = 'block';
-                }
-            } catch (error) {
-                console.error("Failed to load announcement:", error);
-            }
-        }
-
-        // Run on page load
-        loadAnnouncement();
-    </script>
+    <iframe src="document.pdf" type="application/pdf"></iframe>
 </body>
 </html>
