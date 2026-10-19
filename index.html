@@ -3,26 +3,103 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Announcements</title>
+    <title>Auto Fullscreen Slideshow</title>
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
         }
-        html, body {
+        body, html {
             width: 100%;
             height: 100%;
             overflow: hidden;
+            background-color: #000;
+            font-family: sans-serif;
         }
-        iframe {
+        /* Start Button Screen */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 10;
+        }
+        #start-btn {
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            transition: 0.2s;
+        }
+        #start-btn:hover {
+            background-color: #0056b3;
+        }
+        /* Slideshow Container */
+        .slideshow-container {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+        .slide img, .slide iframe {
             width: 100%;
             height: 100%;
             border: none;
+            object-fit: cover; /* Keeps JPGs full screen */
         }
     </style>
 </head>
 <body>
-    <iframe src="document.pdf" type="application/pdf"></iframe>
+
+    <div id="overlay">
+        <button id="start-btn">Start Fullscreen Slideshow</button>
+    </div>
+
+    <div class="slideshow-container">
+        <!-- 1. Using local JPG images -->
+        <div class="slide"><img src="image1.jpg" alt="Slide 1"></div>
+        <!-- <div class="slide"><img src="image2.jpg" alt="Slide 2"></div> -->
+    </div>
+
+    <script>
+        const overlay = document.getElementById('overlay');
+        const startBtn = document.getElementById('start-btn');
+        let slideIndex = 0;
+        const slideInterval = 5000; // 5 seconds per slide
+
+        startBtn.addEventListener('click', () => {
+            enterFullscreen();
+            overlay.style.display = 'none';
+            startSlideshow();
+        });
+
+        function enterFullscreen() {
+            const elem = document.documentElement;
+            if (elem.requestFullscreen) { elem.requestFullscreen(); }
+            else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); }
+            else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
+        }
+
+        function startSlideshow() {
+            const slides = document.getElementsByClassName("slide");
+            for (let i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";  
+            }
+            slideIndex++;
+            if (slideIndex > slides.length) { slideIndex = 1 }    
+            slides[slideIndex - 1].style.display = "block";  
+            setTimeout(startSlideshow, slideInterval);
+        }
+    </script>
 </body>
 </html>
